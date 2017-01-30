@@ -1,0 +1,24 @@
+{
+  "name": "missionMaker",
+  "authors": [
+    "Aaron Eiche <aaron@aaroneiche.com>"
+  ],
+  "description": "A Web client for generating Artemis Mission",
+  "main": "index.html",
+  "keywords": [
+    "Artemis"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "abdmob/x2js": "x2js#^1.2.0"
+  }
+}
