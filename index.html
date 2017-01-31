@@ -77,7 +77,9 @@
 
 
       function drawView(){
+        clear();
         drawSectorLines(canvas);
+
       }
 
 
@@ -85,7 +87,7 @@
         context = canvas.getContext("2d");
         context.strokeStyle="#ffff66";
 
-        for(i = 0; i < 5; i++){
+        for(var i = 0; i < 5; i++){
 
           var xPos = (20000 * i) * unitToPixel();
 
@@ -94,7 +96,7 @@
           context.stroke();
         }
 
-        for(i = 0; i < 5; i++){
+        for(var i = 0; i < 5; i++){
 
           var yPos = (20000 * i) * unitToPixel();
 
@@ -106,9 +108,42 @@
       }
 
 
+      direction = true;
+      zoom = true;
+
+      function updateScaling(){
+        if(direction){
+          scaling += 0.01;
+        }else{
+          scaling -= 0.01;
+        }
+        if(zoom){
+          setTimeout(updateScaling,500)
+        }
+        drawView();
+      }
+
+
+
+      function zoomTest(){
+
+        while(zoom){
+
+          setTimeout(updateScaling,500)
+          zoom = false;
+          if(scaling > 3){
+            directon = false;
+          }else if(scaling < 1){
+            directon = true;
+          }
+          console.log(scaling);
+
+        }
+      }
+
 
       function clear(){
-        ctx.clearRect(0,0,canvas.height,canvas.width);
+        context.clearRect(0,0,canvas.height,canvas.width);
       }
 
     </script>
@@ -119,7 +154,7 @@
       }
     </style>
   </head>
-  <body>
+  <body onload="setup();">
 
 
     <canvas id="canvas" width="800" height="800">
