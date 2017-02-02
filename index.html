@@ -79,7 +79,7 @@
       function drawView(){
         clear();
         drawSectorLines(canvas);
-
+        context.stroke();
       }
 
 
@@ -88,25 +88,18 @@
         context.strokeStyle="#ffff66";
 
         for(var i = 0; i < 5; i++){
-
           var xPos = (20000 * i) * unitToPixel();
 
           context.moveTo(xPos,0);
           context.lineTo(xPos,canvas.width);
-          context.stroke();
         }
 
         for(var i = 0; i < 5; i++){
-
           var yPos = (20000 * i) * unitToPixel();
-
           context.moveTo(0,yPos);
           context.lineTo(canvas.height, yPos);
-          context.stroke();
         }
-
       }
-
 
       direction = true;
       zoom = true;
