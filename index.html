@@ -1,6 +1,6 @@
 <html>
   <head>
-
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <script src="bower_components/abdmob/x2js/xml2json.min.js"></script>
     <script>
       const missionTemplate = {
@@ -24,7 +24,45 @@
         return canvas.width/(100000/scaling);
       }
 
-      function setup(){
+      function cssHide(el) {
+        document.querySelectorAll('.'+el).forEach(function(elem){
+          elem.style.display = 'none';
+        });
+      }
+
+      function cssShow(el) {
+        document.querySelectorAll('.'+el).forEach(function(elem){
+          elem.style.display = 'block';
+        });
+      }
+
+      function cssRemoveClass(el, removed) {
+        var elements = document.querySelectorAll(el);
+        Array.prototype.forEach.call(elements, function(elem, i){
+          if (elem.classList)
+            elem.classList.remove(removed);
+          else
+            elem.className = elem.className.replace(new RegExp('(^|\\b)' + removed.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+        });
+      }
+
+      function cssAddClass(el, added) {
+        var elem = document.querySelectorAll('#'+el)[0];
+        if (elem.classList)
+          elem.classList.add(added);
+        else
+          elem.className += ' ' + added;
+      }
+
+      function showPage(el, disp) {
+        cssHide('page');
+        cssShow(el);
+        cssRemoveClass('.nav', 'active');
+        cssAddClass(el, 'active');
+      }
+
+      function setup() {
+        showPage('editor');
         canvas = document.getElementById("canvas");
         context = canvas.getContext("2d");
 
@@ -33,7 +71,7 @@
           // var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
         }, false);
 
-        canvas.addEventListener('mousewheel',function(evt){
+        canvas.addEventListener('mousewheel',function(evt) {
 
           if(evt.wheelDelta < 1){
             scaling -= 1;
@@ -72,18 +110,18 @@
       */
 
 
-      function createNewMission(){
+      function createNewMission() {
       }
 
 
-      function drawView(){
+      function drawView() {
         clear();
         drawSectorLines(canvas);
         context.stroke();
       }
 
 
-      function drawSectorLines(canvas){
+      function drawSectorLines(canvas) {
         context = canvas.getContext("2d");
         context.strokeStyle="#ffff66";
 
@@ -104,7 +142,7 @@
       direction = true;
       zoom = true;
 
-      function updateScaling(){
+      function updateScaling() {
         if(direction){
           scaling += 0.01;
         }else{
@@ -118,7 +156,7 @@
 
 
 
-      function zoomTest(){
+      function zoomTest() {
 
         while(zoom){
 
@@ -135,7 +173,7 @@
       }
 
 
-      function clear(){
+      function clear() {
         context.clearRect(0,0,canvas.height,canvas.width);
       }
 
@@ -145,14 +183,69 @@
         float: right;
         background-color: rgb(0, 0, 0);
       }
+      .page {
+        display: none;
+      }
+      li {
+        float:left;
+      }
     </style>
   </head>
   <body onload="setup();">
 
+    <nav class="navbar navbar-default">
+      <span class="container-fluid">
+        <span class="navbar-header">
+          <a class="navbar-brand" href="">Artemis Mission Maker</a>
+        </span>
+        <ul class="nav navbar-nav">
+          <li id="editor" class="nav active"><a href="#" onClick="showPage('editor')">Editor</a></li>
+          <li id="story" class="nav"><a href="#" onClick="showPage('story')">Story</a></li>
+          <li id="objects" class="nav"><a href="#" onClick="showPage('objects')">Objects</a></li>
+          <li id="tools" class="nav"><a href="#" onClick="showPage('tools')">Tools</a></li>
+          <li id="settings" class="nav"><a href="#" onClick="showPage('settings')">Settings</a></li>
+        </ul>
+      </span>
+    </nav>
+    
+    <div class="editor page">...
+      <canvas id="canvas" width="800" height="800">
 
-    <canvas id="canvas" width="800" height="800">
+      </canvas>
+    </div>
 
-    </canvas>
+    <div class="story page">
+      Story editor goes here...
+    </div>
+
+    <div class="tools page">
+      Calculator and converter tools go here...
+    </div>
+
+    <div class="objects page">
+      Objects go here...<br />
+      <select id="cats">
+        <option>Bot</option>
+        <option>Creature</option>
+        <option>Enemy</option>
+        <option>Enemy Base</option>
+        <option>Enemy Fleet</option>
+        <option>Friendly Base</option>
+        <option>Friendly Ship</option>
+        <option>GM</option>
+        <option>Messages</option>
+        <option>Realm Advanced</option>
+        <option>Realm Anomaly</option>
+        <option>Realm Basic</option>
+        <option>Task</option>
+        <option>Task Linker</option>
+        <option>USN</option>
+      </select>
+    </div>
+
+    <div class="settings page">
+      Settings go here...
+    </div>
 
   </body>
 </html>
